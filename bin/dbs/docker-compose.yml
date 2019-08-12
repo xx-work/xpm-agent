@@ -1,0 +1,60 @@
+version: "2.2"
+
+services:
+
+   mysql:
+     container_name: mysql-server
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/mysql:5.7'
+     volumes:
+       - /srv/docker/mysqldata89:/var/lib/mysql
+       - /etc/localtime:/etc/localtime
+     restart: always
+     ports:
+       - "33306:3306"
+     env_file:
+       - .env
+     environment:
+       - character-set-server=utf8
+       - collation-server=utf8_general_ci
+     networks:
+       customize_net:
+         ipv4_address: 172.16.0.223
+
+   redis:
+     container_name: redis-server
+     image: 'registry.cn-hangzhou.aliyuncs.com/xxzhang/redis:4.0.9'
+     restart: always
+     volumes:
+       - /srv/docker/redis:/var/lib/redis
+       - /etc/localtime:/etc/localtime
+     env_file:
+       - .env
+     ports:
+       - "36379:6379"
+     networks:
+       customize_net:
+         ipv4_address: 172.16.0.114
+
+   rabbitmq:
+     container_name: mq-server
+     image: 'rabbitmq:3-management'
+     restart: always
+     ports:
+       - "5672:5672"
+       - "15672:15672"
+     volumes:
+       - /srv/docker/rabbitmq/data:/var/lib/rabbitmq
+       - /etc/localtime:/etc/localtime
+     env_file:
+       - .env
+     networks:
+       customize_net:
+         ipv4_address: 172.16.0.115
+
+networks:
+  customize_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/24

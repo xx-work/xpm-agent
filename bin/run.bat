@@ -1,0 +1,1 @@
+e://agent_venv/Scripts/activate.bat
