@@ -32,17 +32,7 @@ class AuthToken:
         :param auth_token:
         :return: dict
         """
-        try:
-            payload = jwt.decode(auth_token, self.token_secret, algorithms=['HS256'],
-                                 leeway=datetime.timedelta(seconds=10))
-            if 'data' in payload and 'user_id' in payload['data']:
-                return payload['data']
-            else:
-                raise jwt.InvalidTokenError
-        except jwt.ExpiredSignatureError:
-            return dict(status=-1, msg='Token过期')
-        except jwt.InvalidTokenError:
-            return dict(status=-2, msg='无效Token')
+        return jwt_decode_handler(auth_token)
 
 
 def gen_md5(pd):

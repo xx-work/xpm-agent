@@ -41,7 +41,8 @@ JWT_AUTH = {
 
 }
 
-for k, v in JWT_AUTH:
+for k, v in JWT_AUTH.items():
     api_settings.__setattr__(k, v)
 
 USERNAME_FIELD = "username"
+Authentication_KEY = 'Authentication'
