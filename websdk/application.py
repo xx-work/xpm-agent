@@ -16,8 +16,8 @@ from .web_logs import ins_log
 from .configs import configs
 
 define("addr", default='0.0.0.0', help="run on the given ip address", type=str)
-define("port", default=8000, help="run on the given port", type=int)
-define("progid", default=str(uuid()), help="tornado progress id", type=str)
+define("port", default=8000, help="指定一个端口运行", type=int)
+define("progid", default=str(uuid()), help="Tornado 进程ID指定", type=str)
 
 
 class Application(tornadoApp):

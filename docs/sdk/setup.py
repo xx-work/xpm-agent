@@ -9,7 +9,6 @@ setup(
     install_requires=['fire',
                       'shortuuid',
                       'pymysql==0.9.3',
-                      'sqlalchemy==1.3.0',
                       'python3-pika==0.9.14',
                       'PyJWT',
                       'Crypto==1.4.1',
@@ -20,6 +19,7 @@ setup(
                       'aliyun-python-sdk-dysmsapi',
                       'python-dateutil==2.7.5',
                       'ldap3==2.6',
+                      'django==2.0.12',
                       'pycryptodome'
                       ],
     author='actanble',

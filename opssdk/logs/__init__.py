@@ -8,10 +8,17 @@ role   : 运维日志
 
 import logging
 import os
+import sys
+import datetime
+
+DATE_FORMATER = str(datetime.datetime.now().date())
+LOG_PATH = "c://logs//ops.log-" + DATE_FORMATER if sys.platform == 'win32' else '/var/log/ops.log-' + DATE_FORMATER
+
 
 # 写日志类
 class Log:
-    def __init__(self, log_flag='yunwei', log_file='/log/yunwei/yunwei.log'):
+
+    def __init__(self, log_flag='ops', log_file=LOG_PATH):
         self.logFlag = log_flag
         self.logFile = log_file
 

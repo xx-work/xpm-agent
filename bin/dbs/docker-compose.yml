@@ -35,21 +35,21 @@ services:
        customize_net:
          ipv4_address: 172.16.0.114
 
-   rabbitmq:
-     container_name: mq-server
-     image: 'rabbitmq:3-management'
-     restart: always
-     ports:
-       - "5672:5672"
-       - "15672:15672"
-     volumes:
-       - /srv/docker/rabbitmq/data:/var/lib/rabbitmq
-       - /etc/localtime:/etc/localtime
-     env_file:
-       - .env
-     networks:
-       customize_net:
-         ipv4_address: 172.16.0.115
+#   rabbitmq:
+#     container_name: mq-server
+#     image: 'rabbitmq:3-management'
+#     restart: always
+#     ports:
+#       - "5672:5672"
+#       - "15672:15672"
+#     volumes:
+#       - /srv/docker/rabbitmq/data:/var/lib/rabbitmq
+#       - /etc/localtime:/etc/localtime
+#     env_file:
+#       - .env
+#     networks:
+#       customize_net:
+#         ipv4_address: 172.16.0.115
 
 networks:
   customize_net:

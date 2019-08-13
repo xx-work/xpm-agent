@@ -65,5 +65,10 @@ settings = dict(
         }
     },
 
-
 )
+
+
+# Add Django ORM
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "agentx.dj_settings")
+import django
+django.setup()

@@ -12,6 +12,7 @@ from .configs import configs
 
 cache_conns = {}
 
+
 def cache_conn(key=None, db=None):
     redis_configs = configs[const.REDIS_CONFIG_ITEM]
     if not key:

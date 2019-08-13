@@ -8,7 +8,6 @@ role   : 缓存
 
 import base64
 import json
-import pickle
 from .consts import const
 
 import redis

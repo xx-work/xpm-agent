@@ -12,7 +12,7 @@ import time
 import re
 import subprocess
 import base64
-from Crypto.Cipher import AES
+from Cryptodome.Cipher import AES
 from binascii import b2a_hex, a2b_hex
 
 
@@ -133,6 +133,7 @@ class MyCryptV2:
         encrypted_text = str(base64.encodebytes(encrypt_aes), encoding='utf-8').replace('\n', '')# 执行加密并转码返回bytes
         # print('[INFO]: 你的加密为：{}'.format(encrypted_text))
         return encrypted_text
+
     def my_decrypt(self, text):
         """
         解密方法
@@ -148,14 +149,17 @@ class MyCryptV2:
         # print('[INFO]: 你的解密为：{}'.format(decrypted_text))
         return decrypted_text
 
+
 #  当前时间
 def now_time():
     return time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
+
 
 def is_ip(ip):
     if re.search(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b$', ip):
         return True
     return False
+
 
 if __name__ == "__main__":
     pass

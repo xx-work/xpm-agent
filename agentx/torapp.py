@@ -2,20 +2,20 @@
 # -*-coding:utf-8-*-
 """
 Author : actanble
-date   : 2019-03-19
-role   : Application 报警
+date   : 2017-10-11
+role   : Application
 """
 
-import tornado
 from websdk.application import Application as myApplication
-from .alert_tasks import send_alarm
+from .app.handlers.snmp_handler import snmpd_urls
 
 
 class Application(myApplication):
+
     def __init__(self, **settings):
+        # self.inital_fun(**settings)
         urls = []
-        alert_callback = tornado.ioloop.PeriodicCallback(send_alarm, 120000)
-        alert_callback.start()
+        urls.extend(snmpd_urls)
         super(Application, self).__init__(urls, **settings)
 
 

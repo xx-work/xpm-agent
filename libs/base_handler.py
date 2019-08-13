@@ -13,6 +13,7 @@ class BaseHandler(SDKBaseHandler):
 
     def __init__(self, *args, **kwargs):
         self.new_csrf_key = str(shortuuid.uuid())
+        self.user = None
         super(BaseHandler, self).__init__(*args, **kwargs)
 
     def prepare(self):
@@ -36,8 +37,6 @@ class BaseHandler(SDKBaseHandler):
             if Authentication_KEY in self.request.headers.keys():
                 try:
                     auth_key = self.request.headers[Authentication_KEY].split()[1]
-                    print(auth_key)
-                    print("==================OK==========================")
                 except:
                     print("不是 JWT-token 格式")
 
@@ -47,9 +46,8 @@ class BaseHandler(SDKBaseHandler):
                 auth_key = bytes(url_auth_key, encoding='utf-8')
 
         if not auth_key:
-            raise HTTPError(401, 'auth failed')
-        else:
-            user_info = AuthToken().decode_auth_token(auth_key)
-            # user_info = jwt.decode(auth_key, verify=False).get('data')
-            return self.write(user_info)
+            raise HTTPError(401, '用户认证失败')
+
+        user_info = AuthToken().decode_auth_token(auth_key)
+        self.user = user_info
 

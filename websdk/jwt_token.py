@@ -1,19 +1,11 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-import uuid
-import jwt, datetime, hashlib
-import warnings
-from calendar import timegm
-from datetime import datetime
 
-# from .configs import configs as my_configs
-from .jwt.api_settings import api_settings
+import hashlib
 from .jwt.utils import jwt_decode_handler, jwt_encode_handler
 
 
 class AuthToken:
-
-    token_secret = api_settings.JWT_SECRET_KEY
 
     def encode_auth_token(self, user):
         """
