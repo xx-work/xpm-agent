@@ -33,10 +33,28 @@ class Test3(RequestHandler):
         self.write(dict(code=-1, msg='3333333333'))
 
 
+class Test4(RequestHandler):
+
+    def get(self, *args, **kwargs):
+        from opssdk.operate.mail import Mail
+        Mail(mail_user="xz_ops_mail", mail_pass="actanble1", ).send_mail(to_list='2970090120@qq.com,180573956@qq.com',
+                                                                         header='无尘', sub='test000011',
+                                                                         content="<div>?????</div>")
+        self.write(dict(code=-1, msg='send OK'))
+
+    def post(self, *args, **kwargs):
+        from opssdk.operate.mail import Mail
+        Mail(mail_user="actanble", mail_pass="string123",).send_mail(to_list='2970090120@qq.com,180573956@qq.com,admin@actanble.com',
+                                                                        header='无尘', sub='test000011',
+                                                                        content="<div>?????</div>")
+        self.write(dict(code=-1, msg='send OK'))
+
+
 snmpd_urls = [
     (r"/test1", SnmpData),
     (r"/2", Test2),
     (r"/3", Test3),
+    (r"/4", Test4),
 ]
 
 if __name__ == "__main__":

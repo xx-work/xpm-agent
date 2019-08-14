@@ -21,8 +21,13 @@
 ## 2019-8-13
 - 开始使用ORM环境在Tornado项目中。
 - 目的是使用django-orm替代sqlachemy
+- [策略基准](https://docs.microsoft.com/zh-cn/azure/active-directory/conditional-access/concept-baseline-protection)
 
 
 ## 客户端进行监控 信息采集等都使用 ORM 同样部件注册也使用ORM
 - 1, 在请求外包裹 tornado.gen.task 
-- 2, 
+- 2,  \
+
+
+## 2019-8-14 
+- apschedueler 监控。

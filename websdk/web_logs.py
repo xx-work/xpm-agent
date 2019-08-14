@@ -120,6 +120,6 @@ def timeit(func):
 
     return wrapper
 
-
-ins_log.write_log('info', 'xxxx')
-ins_log.read_log('info', 'xxxx')
+#
+# ins_log.write_log('info', 'xxxx')
+# ins_log.read_log('info', 'xxxx')

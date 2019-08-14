@@ -12,17 +12,19 @@ import sys
 import datetime
 
 DATE_FORMATER = str(datetime.datetime.now().date())
-LOG_PATH = "c://logs//ops.log-" + DATE_FORMATER if sys.platform == 'win32' else '/var/log/ops.log-' + DATE_FORMATER
+logpath = lambda log_flag: "c://logs//" + log_flag + ".log-" + DATE_FORMATER \
+    if sys.platform == 'win32' else \
+    '/var/log/' + log_flag + '.log-' + DATE_FORMATER
 
 
 # 写日志类
 class Log:
 
-    def __init__(self, log_flag='ops', log_file=LOG_PATH):
+    def __init__(self, log_flag='ops'):
         self.logFlag = log_flag
-        self.logFile = log_file
+        self.logFile = logpath(log_flag)
 
-    def write_log(self, log_level, log_message):
+    def write_log(self, log_level='info', log_message=DATE_FORMATER):
         # 创建一个logger
         logger = logging.getLogger(self.logFlag)
         logger.setLevel(logging.DEBUG)
@@ -49,7 +51,10 @@ class Log:
         logger.addHandler(th)
 
         # 记录日志
-        level_dic = {'debug': logger.debug, 'info': logger.info, 'warning': logger.warning, 'error': logger.error,
+        level_dic = {'debug': logger.debug,
+                     'info': logger.info,
+                     'warning': logger.warning,
+                     'error': logger.error,
                      'critical': logger.critical}
         level_dic[log_level](log_message)
 
@@ -59,6 +64,21 @@ class Log:
 
         th.flush()
         logger.removeHandler(th)
+
+    def info(self, message):
+        return self.write_log(message)
+
+    def warn(self, message):
+        return self.write_log('warning', message)
+
+    def error(self, message):
+        return self.write_log('error', message)
+
+    def critical(self, message):
+        return self.write_log('critical', message)
+
+    def debug(self, message):
+        return self.write_log('debug', message)
 
 
 if __name__ == "__main__":
