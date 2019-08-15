@@ -7,7 +7,9 @@ role   : Application
 """
 
 from websdk.application import Application as myApplication
-from .app.handlers.snmp_handler import snmpd_urls
+from handlers.snmp_handler import snmpd_urls
+from handlers.cron_handler import cron_urls
+from handlers.task_log_handle import task_log_urls
 
 
 class Application(myApplication):
@@ -16,6 +18,9 @@ class Application(myApplication):
         # self.inital_fun(**settings)
         urls = []
         urls.extend(snmpd_urls)
+        urls.extend(cron_urls)
+        urls.extend(task_log_urls)
+
         super(Application, self).__init__(urls, **settings)
 
 

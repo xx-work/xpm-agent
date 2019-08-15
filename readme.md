@@ -31,3 +31,8 @@
 
 ## 2019-8-14 
 - apschedueler 监控。
+- 今日成果
+  - 1, 完成了 sqlachemy+apscheduler对接的管理
+  - 2, 修改 codo-cron 为自己的Django-ORM格式的；
+  
+

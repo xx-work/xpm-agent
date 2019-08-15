@@ -10,25 +10,6 @@ xsrf_cookies = False
 expire_seconds = 365 * 24 * 60 * 60
 cookie_secret = '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2X6TP1o/Vo='
 
-DEFAULT_DB_DBHOST = os.getenv('DEFAULT_DB_DBHOST', '172.16.0.223')
-DEFAULT_DB_DBPORT = os.getenv('DEFAULT_DB_DBPORT', '3306')
-DEFAULT_DB_DBUSER = os.getenv('DEFAULT_DB_DBUSER', 'root')
-DEFAULT_DB_DBPWD = os.getenv('DEFAULT_DB_DBPWD', 'ljXrcyn7chaBU4F')
-DEFAULT_DB_DBNAME = os.getenv('DEFAULT_DB_DBNAME', 'do_task')
-
-DEFAULT_REDIS_HOST = os.getenv('DEFAULT_REDIS_HOST', '172.16.0.223')
-DEFAULT_REDIS_PORT = os.getenv('DEFAULT_REDIS_PORT', '6379')
-DEFAULT_REDIS_DB = 8
-DEFAULT_REDIS_AUTH = True
-DEFAULT_REDIS_CHARSET = 'utf-8'
-DEFAULT_REDIS_PASSWORD = os.getenv('DEFAULT_REDIS_PASSWORD', '123456')
-
-DEFAULT_MQ_ADDR = os.getenv('DEFAULT_MQ_ADDR', '192.168.2.227')
-DEFAULT_MQ_PORT = 5672
-DEFAULT_MQ_VHOST = '/'
-DEFAULT_MQ_USER = os.getenv('DEFAULT_MQ_USER', 'actanble')
-DEFAULT_MQ_PWD = os.getenv('DEFAULT_MQ_PWD', 'test@1q2w2e4R')
-
 sign_name = 'CSO客户端监控任务加密认证工具',
 template_code = 'CSO_AGENTX_190811',
 
@@ -64,6 +45,15 @@ settings = dict(
             const.RD_PASSWORD_KEY: DEFAULT_REDIS_PASSWORD
         }
     },
+    mongodb={
+        "mongodb": {
+            "host": DEFAULT_MONGO_HOST,
+            "port": DEFAULT_MONGO_PORT,
+            "username": DEFAULT_MONGO_USER,
+            "password": DEFAULT_MONGO_PASS,
+            "auth_db": DEFAULT_MONGO_AUTH_DB
+        }
+    }
 
 )
 

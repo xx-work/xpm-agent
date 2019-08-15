@@ -5,7 +5,9 @@ from tornado.options import define
 from websdk.program import MainProgram
 from settings import settings as app_settings
 from agentx.torapp import Application as TaskApp
-from agentx.djapp import Application as DjManagerApp
+from agentx.dj_app import Application as DjManagerApp
+from handlers.cron_handler import Application as CronApp
+
 
 define("service", default='web', help="start service flag", type=str)
 
@@ -19,8 +21,13 @@ class MyProgram(MainProgram):
             self.__app = TaskApp(**settings)
 
         if service == "manage":
-            print('<><<<<<<<<<<<<<<<<')
             self.__app = DjManagerApp()
+
+        if service == "cron":
+            self.__app = CronApp(**settings)
+
+        if service == "aps":
+            self.__app = CronApp(**settings)
 
         super(MyProgram, self).__init__(progress_id)
         self.__app.start_server()

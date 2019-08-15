@@ -5,27 +5,31 @@ import time, datetime
 import json
 from dateutil.relativedelta import relativedelta
 from websdk.application import Application as myApp
-from .jobs import *
+from agentx.app.cron import cron_jobs
 from websdk.web_logs import ins_log
 from websdk.base_handler import LivenessProbe
-from apscheduler.schedulers.tornado import TornadoScheduler
+# from apscheduler.schedulers.tornado import TornadoScheduler
 from libs.base_handler import BaseHandler
-from .models import CronLog
+from agentx.app.models import CronLog
 from tornado.options import options
 from django.forms.models import model_to_dict
+# from django.db.models import Q
 
-
-scheduler = TornadoScheduler()
-scheduler.add_jobstore('cron_jobs')
+from libs.aps_helper import get_mysql_jobstores
+scheduler = get_mysql_jobstores()
 
 
 def job_from(**jobargs):
+    """
+    :param jobargs: job 参数包括 cron params job_id args
+    :return:
+    """
     job_id = jobargs['job_id']
-    func = __name__ + ':' + 'exec_cmd'
-    args = jobargs['cmd']
+    func = getattr(cron_jobs, 'exec_task')
+    args = jobargs['params']
     cron = jobargs['cron'].split(' ')
     cron_rel = dict(second=cron[0], minute=cron[1], hour=cron[2], day=cron[3], month=cron[4], day_of_week=cron[5])
-    scheduler.add_job(func=func, id=job_id, kwargs={'cmd': args, 'job_id': job_id}, trigger='cron', **cron_rel,
+    scheduler.add_job(func=func, id=job_id, kwargs={'params': args, 'job_id': job_id}, trigger='cron', **cron_rel,
                       replace_existing=True)
     return job_id
 
@@ -53,7 +57,7 @@ class CronJobs(BaseHandler):
                 info = {
                     'job_id': ret.id,
                     'next_run_time': str(ret.next_run_time),
-                    'cmd': ret.kwargs.get('cmd'),
+                    'run_params': ret.kwargs.get('params'),
                     'status': '0' if ret.next_run_time else '1',
                     'cron1': cron,
                     'cron': cron.get("second") + " " + cron.get("minute") + " " + cron.get("hour") + " " + cron.get(
@@ -69,6 +73,7 @@ class CronJobs(BaseHandler):
         data = json.loads(self.request.body.decode("utf-8"))
         if len(data.get('cron').strip().split(' ')) != 6:
             return self.write(dict(code=-1, msg='添加失败，定时器错误'))
+        # print(data)
         job = job_from(**data)
         return self.write(dict(code=0, msg='添加成功', job_id=job))
 
@@ -125,6 +130,7 @@ class CronJobs(BaseHandler):
 
 
 class CronLogs(BaseHandler):
+
     def get(self, *args, **kwargs):
         page_size = self.get_argument('page', default=1, strip=True)
         limit = self.get_argument('limit', default=10, strip=True)
@@ -143,19 +149,17 @@ class CronLogs(BaseHandler):
         end_time_tuple = time.strptime(str(end_date), '%Y-%m-%d')
         log_list = []
 
-
         if key and value:
-            count = len(CronLog.objects.filter(exec_time__gt=start_time_tuple, exec_time__lt=end_time_tuple).filter(**{key: value}))
-            log_info = CronLog.objects.filter(exec_time__gt=start_time_tuple, exec_time__lt=end_time_tuple).filter(**{key: value}).order_by('-exec_time').offset(limit_start).limit(int(limit))
+            count = CronLog.objects.filter(exec_time__gt=start_date, exec_time__lt=end_date).filter(**{key: value}).count()
+            log_info = CronLog.objects.filter(exec_time__gt=start_time_tuple, exec_time__lt=end_time_tuple).filter(**{key: value}).order_by('-exec_time')[limit_start: limit_start+limit]
         else:
-            count = CronLog.objects.filter(CronLog).filter(CronLog.exec_time > start_time_tuple,
-                                                  CronLog.exec_time < end_time_tuple).count()
-            log_info = CronLog.objects.filter(CronLog).filter(CronLog.exec_time > start_time_tuple,
-                                                     CronLog.exec_time < end_time_tuple).order_by(-CronLog.exec_time).offset(limit_start).limit(int(limit))
+            count = CronLog.objects.filter(exec_time__gt=start_date, exec_time__lt=end_date).count()
+            log_info = CronLog.objects.filter(exec_time__gt=start_date,
+                  exec_time__lt=end_date).order_by('-exec_time')[limit_start: limit_start+limit]
 
         for msg in log_info:
             data_dict = model_to_dict(msg)
-            data_dict['exec_time'] = str(data_dict['exec_time'])
+            # data_dict['exec_time'] = str(data_dict['exec_time'])
             log_list.append(data_dict)
 
         return self.write(dict(code=0, status=0, msg='获取成功', count=count, data=log_list))

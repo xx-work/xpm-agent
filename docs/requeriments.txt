@@ -7,17 +7,13 @@ certifi==2019.6.16
 chardet==3.0.4
 crypto==1.4.1
 fire==0.2.1
-idna==2.8
 ldap3==2.6
-motor==2.0.0
-Naked==0.1.31
-ply==3.11
 pyasn1==0.4.6
 pycryptodome==3.8.2
 PyJWT==1.7.1
 pymongo==3.8.0
 PyMySQL==0.9.3
-pysmi==0.3.4
+# pysmi==0.3.4
 pysnmp==4.4.11
 python-dateutil==2.7.5
 python3-pika==0.9.14

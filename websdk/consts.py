@@ -154,3 +154,10 @@ const.LDAP_ATTRIBUTES = "LDAP_ATTRIBUTES"
 const.LDAP_USE_SSL = "LDAP_USE_SSL"
 const.LDAP_ENABLE = "LDAP_ENABLE"
 
+# MONGODB
+const.MONGODB_DB_ITEM = 'mongodbs'
+const.MONGODB_HOST_KEY = "host"
+const.MONGODB_PORT_KEY = "port"
+const.MONGODB_USERNAME_KEY = "username"
+const.MONGODB_PASSWORD_KEY = "password"
+const.MONGODB_AUTH_DB_KEY = "auth_db"

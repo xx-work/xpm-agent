@@ -51,3 +51,6 @@ class BaseHandler(SDKBaseHandler):
         user_info = AuthToken().decode_auth_token(auth_key)
         self.user = user_info
 
+
+from settings import debug
+BaseHandler = BaseHandler if not debug else RequestHandler

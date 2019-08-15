@@ -8,9 +8,7 @@ class Application:
             from django.core.management import execute_from_command_line
         except ImportError as exc:
             raise ImportError(
-                "Couldn't import Django. Are you sure it's installed and "
-                "available on your PYTHONPATH environment variable? Did you "
-                "forget to activate a virtual environment?"
+                "请确定是不是环境错误, 找不到Django的包,检查PYTHON_PATH"
             ) from exc
         execute_from_command_line(sys.argv[1:])
 
