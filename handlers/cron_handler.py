@@ -151,7 +151,8 @@ class CronLogs(BaseHandler):
 
         if key and value:
             count = CronLog.objects.filter(exec_time__gt=start_date, exec_time__lt=end_date).filter(**{key: value}).count()
-            log_info = CronLog.objects.filter(exec_time__gt=start_time_tuple, exec_time__lt=end_time_tuple).filter(**{key: value}).order_by('-exec_time')[limit_start: limit_start+limit]
+            log_info = CronLog.objects.filter(exec_time__gt=start_time_tuple, exec_time__lt=end_time_tuple
+                            ).filter(**{key: value}).order_by('-exec_time')[limit_start: limit_start+limit]
         else:
             count = CronLog.objects.filter(exec_time__gt=start_date, exec_time__lt=end_date).count()
             log_info = CronLog.objects.filter(exec_time__gt=start_date,

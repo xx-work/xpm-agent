@@ -30,16 +30,9 @@ def exec_cmd(cmd, job_id):
 
 
 def exec_task(params, job_id):
-    """
-    执行本地的脚本任务; 传递进来参数和 job_id
-    :param params: 要么是个命令 要么是个本地函数字典。
-    :param job_id:
-    :return:
-    """
-
     try:
         task_info = json.loads(params)
-        print(task_info)
+        # print(task_info)
     except:
         if "{" not in params:
             return exec_cmd(params, job_id)
