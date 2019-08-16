@@ -30,36 +30,34 @@ def exec_cmd(cmd, job_id):
 
 
 def exec_task(params, job_id):
-    try:
-        task_info = json.loads(params)
-        # print(task_info)
-    except:
-        if "{" not in params:
-            return exec_cmd(params, job_id)
-        raise AttributeError('传入属性错误{"name":"print", "args":""}')
-    from agentx import tasks
+    if type(params) == str:
+        return exec_cmd(params, job_id)
 
-    if type(task_info) == list:
-        task_name, args = tuple(task_info)
-    else:
+    if type(params) == list:
+        task_name, args = tuple(params)
+        print(task_name)
+
+    if type(params) == dict:
         try:
-            task_name = task_info["name"]
+            task_name = params["task_name"]
         except:
             raise AttributeError("错误的命名传入")
-        args = task_info['args'] if 'args' in task_info.keys() else None
+        args = params['args'] if 'args' in params.keys() else []
 
+    # 执行本地注册的task任务
     try:
-        logtxt = getattr(tasks, task_name)(args)
+        from agentx import tasks
+        logtxt = getattr(tasks, task_name)(*args)
         run_code = 0
     except Exception as e:
         logtxt = str(e)
         run_code = 1
         return "执行错误！传入的参数不合法"
     finally:
+        # 开始记录执行状态的日志
         CronLog(job_id=job_id,
                 status='success' if run_code == 0 else 'faild',
-                task_cmd=str(task_info),
-                task_log=str(logtxt)).save()
+                task_cmd=str(params), task_log=str(logtxt)).save()
 
 
 # 原来的老版本的执行明明行任务的 cron 管理;

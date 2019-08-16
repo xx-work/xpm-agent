@@ -145,13 +145,13 @@ class CronLogs(BaseHandler):
         if not end_date:
             end_date = datetime.date.today() + datetime.timedelta(days=1)
 
-        start_time_tuple = time.strptime(str(start_date), '%Y-%m-%d')
-        end_time_tuple = time.strptime(str(end_date), '%Y-%m-%d')
+        # start_time_tuple = time.strptime(str(start_date), '%Y-%m-%d')
+        # end_time_tuple = time.strptime(str(end_date), '%Y-%m-%d')
         log_list = []
 
         if key and value:
             count = CronLog.objects.filter(exec_time__gt=start_date, exec_time__lt=end_date).filter(**{key: value}).count()
-            log_info = CronLog.objects.filter(exec_time__gt=start_time_tuple, exec_time__lt=end_time_tuple
+            log_info = CronLog.objects.filter(exec_time__gt=start_date, exec_time__lt=end_date
                             ).filter(**{key: value}).order_by('-exec_time')[limit_start: limit_start+limit]
         else:
             count = CronLog.objects.filter(exec_time__gt=start_date, exec_time__lt=end_date).count()
@@ -160,7 +160,7 @@ class CronLogs(BaseHandler):
 
         for msg in log_info:
             data_dict = model_to_dict(msg)
-            # data_dict['exec_time'] = str(data_dict['exec_time'])
+            data_dict['exec_time'] = msg.exec_time.strftime("%Y-%m-%d %H:%M:%S")
             log_list.append(data_dict)
 
         return self.write(dict(code=0, status=0, msg='获取成功', count=count, data=log_list))
