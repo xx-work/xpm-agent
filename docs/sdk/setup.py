@@ -16,7 +16,7 @@ setup(
                       'tornado==5.0',
                       'python-dateutil==2.7.5',
                       'ldap3==2.6',
-                      'django==2.0.12',
+                      'django==2.2.10',
                       'pycryptodome'
                       ],
     author='actanble',
